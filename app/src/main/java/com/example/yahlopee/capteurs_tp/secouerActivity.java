@@ -16,7 +16,9 @@ import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.w3c.dom.Text;
@@ -25,11 +27,14 @@ public class secouerActivity extends AppCompatActivity implements SensorEventLis
     private SensorManager mngr;
     private Boolean isOn = false;
     private long lts;
+    private LinearLayout img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secouer);
         mngr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        img = (LinearLayout) findViewById(R.id.lay);
+        img.setBackgroundColor(R.color.moyennes);
         mngr.registerListener(this, mngr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), mngr.SENSOR_DELAY_NORMAL);
         lts = System.currentTimeMillis();
     }
@@ -74,8 +79,10 @@ public class secouerActivity extends AppCompatActivity implements SensorEventLis
         if(acceleration > 4){
             if(isOn){
                 flashOff();
+                img.setBackgroundColor(R.color.moyennes);
             }else{
                 flashOn();
+                img.setBackgroundColor(R.color.inferieur);
             }
         }
     }

@@ -14,14 +14,14 @@ public class directionActivity extends Activity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelometre;
-    private TextView test,vals;
+    private TextView test;
     private long last;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction);
         test = (TextView) findViewById(R.id.test);
-        vals = (TextView) findViewById(R.id.vals);
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         last = System.currentTimeMillis();
         accelometre  = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
