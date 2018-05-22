@@ -1,5 +1,6 @@
 package com.example.yahlopee.capteurs_tp;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -10,75 +11,88 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.w3c.dom.Text;
 
-public class secouerActivity extends Activity{
-    private SensorManager sensorManager;
-    private float mAccel;
-    private float mAccelCurrent;
-    private float mAccelLast;
-    private boolean flashOn = false;
-    private Camera objCamera = null;
-    private TextView text;
-    int cont =0;
+public class secouerActivity extends AppCompatActivity implements SensorEventListener{
+    private SensorManager mngr;
+    private Boolean isOn = false;
+    private long lts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secouer);
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensorManager.registerListener(mSensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        text = (TextView) findViewById(R.id.te);
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
-
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
-            text.setText("Votre appareil a le capteur neccesaire");
-        }else{
-            text.setText("Votre appareil n'a pas de capteur neccesaire");
-        }
-
+        mngr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mngr.registerListener(this, mngr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), mngr.SENSOR_DELAY_NORMAL);
+        lts = System.currentTimeMillis();
     }
 
-    private final SensorEventListener mSensorListener = new SensorEventListener() {
-
-        public void onSensorChanged(SensorEvent se) {
-            float x = se.values[0];
-            float y = se.values[1];
-            float z = se.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-
-            if (mAccel > 12) {
-                CameraA();
-
-            }
+    @TargetApi(VERSION_CODES.M)
+    private void flashOff(){
+        CameraManager cm = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try{
+            String [] id = cm.getCameraIdList();
+            String cameraId = id[0];
+            cm.setTorchMode(cameraId,false);
+            isOn = false;
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
+    }
 
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    @TargetApi(VERSION_CODES.M)
+    private void flashOn(){
+        CameraManager cm = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try{
+            String [] id = cm.getCameraIdList();
+            String cameraId = id[0];
+            cm.setTorchMode(cameraId,true);
+            isOn = true;
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
-    };
+    }
 
-    protected void onPause() {
-        sensorManager.unregisterListener(mSensorListener);
-        super.onPause();
+    public void stop(){
+        mngr.unregisterListener(this);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(mSensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        float x = sensorEvent.values[0];
+        float y = sensorEvent.values[1];
+        float z = sensorEvent.values[2];
+
+        float acceleration = (x*x + y*y+ z*z)/(mngr.GRAVITY_EARTH * mngr.GRAVITY_EARTH);
+        if(acceleration > 4){
+            if(isOn){
+                flashOff();
+            }else{
+                flashOn();
+            }
+        }
     }
 
-    private void CameraA(){
-        text.setText("Hello"+(cont=cont+1));
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if((keyCode == KeyEvent.KEYCODE_BACK)){
+            stop();
+
+        }
+        return super.onKeyDown(keyCode,event);
+    }
+
 
 }
