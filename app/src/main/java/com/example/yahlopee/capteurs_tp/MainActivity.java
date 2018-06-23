@@ -50,5 +50,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Hello proximite", Toast.LENGTH_SHORT).show();
     }
 
+    public void gps(View view){
+        intent = new(MainActivity.this, gpsActivity.class);
+        startActivity(intent);
+        Toast.makeText(this, "Hello GPS", Toast.LENGTH_SHORT).show();
+    }
+
 
 }

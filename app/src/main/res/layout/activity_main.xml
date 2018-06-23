@@ -11,59 +11,69 @@
         android:id="@+id/liste"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="124dp"
-        android:text="Liste capteurs"
-        android:onClick="liste"/>
+        android:layout_marginTop="41dp"
+        android:onClick="liste"
+        android:text="Liste capteurs" />
 
     <Button
         android:id="@+id/presence"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/liste"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:text="Detection/Absence capteurs"
-        android:onClick="presence"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="99dp"
+        android:onClick="presence"
+        android:text="Detection/Absence capteurs" />
 
     <Button
         android:id="@+id/accelerometre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/presence"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Accéléromètre"
-        android:onClick="accelerometre"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="156dp"
+        android:onClick="accelerometre"
+        android:text="Accéléromètre" />
 
     <Button
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/accelerometre"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="Direction"
-        android:onClick="direction"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="220dp"
+        android:onClick="direction"
+        android:text="Direction" />
 
     <Button
         android:id="@+id/secouer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/test"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="Secouer l'appareil"
-        android:onClick="secouer"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="180dp"
+        android:onClick="secouer"
+        android:text="Secouer l'appareil" />
 
     <Button
         android:id="@+id/proximite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/secouer"
-        android:layout_marginTop="36dp"
-        android:text="Proximité"
-        android:onClick="proximite"/>
+        android:layout_marginBottom="114dp"
+        android:onClick="proximite"
+        android:text="Proximité" />
+
+    <Button
+        android:id="@+id/gps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp"
+        android:text="GPS"
+        android:onClick="gps"/>
 </RelativeLayout>

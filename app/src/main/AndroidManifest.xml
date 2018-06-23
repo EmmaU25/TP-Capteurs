@@ -25,7 +25,8 @@
         <activity android:name=".directionActivity" />
         <activity android:name=".secouerActivity" />
         <activity android:name=".proximiteActivity" />
-        <activity android:name=".absenceActivity"></activity>
+        <activity android:name=".absenceActivity" />
+        <activity android:name=".gpsActivity"></activity>
     </application>
 
 </manifest>
